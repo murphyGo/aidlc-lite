@@ -125,6 +125,7 @@ Templates live at `.claude/skills/lite-init/templates/` (alongside this SKILL.md
 - `/lite-dev` — picks the next unchecked `PLAN.md` item, implements it, checks it off
 - `/code-review` — review pending changes (defaults to `git diff`); reads `BRIEF.md` for project alignment
 - `/lite-init` — re-run to refine `BRIEF.md` if direction changes
+- `/lite-team` — optional. Propose and generate an agent team (team-lead + signal-driven specialists). Skip if you're solo-driving with `/lite-dev`
 
 ## Tech
 

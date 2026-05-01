@@ -1,6 +1,6 @@
 # aidlc-lite
 
-A lightweight, solo-developer-first AIDLC starter. Three files, three skills. No approval gates, no audit logs, no per-stage paperwork.
+A lightweight, solo-developer-first AIDLC starter. Three files, three core skills (plus an optional team skill). No approval gates, no audit logs, no per-stage paperwork.
 
 ## Why this exists
 
@@ -14,7 +14,7 @@ A lightweight, solo-developer-first AIDLC starter. Three files, three skills. No
 | 1-page `BRIEF.md` | `audit.md` (git log replaces it) |
 | Flat `PLAN.md` checklist | Per-stage approval gates |
 | Append-only `DECISIONS.md` (ADR) | functional / NFR / infra design as separate stages |
-| `/lite-init`, `/lite-dev`, `/code-review` | reverse-engineering, cross-check, refinement-log, TECH-DEBT.md |
+| `/lite-init`, `/lite-dev`, `/code-review`, optional `/lite-team` | reverse-engineering, cross-check, refinement-log, TECH-DEBT.md |
 | 7 deep-analysis review protocols (concurrency, security, etc.) | session log integration, NFR docs |
 
 ## When to use this
@@ -66,13 +66,14 @@ my-project/
 └── .claude/skills/
     ├── lite-init/   # re-runnable: refine the brief / replan
     ├── lite-dev/    # the dev driver
-    └── code-review/ # deep review with conditional protocols
-        └── protocols/  # concurrency, security-boundary, ... (lazy-loaded)
+    ├── code-review/ # deep review with conditional protocols
+    │   └── protocols/  # concurrency, security-boundary, ... (lazy-loaded)
+    └── lite-team/   # optional: meta-skill that proposes an agent team
 ```
 
 No `aidlc-docs/`, no `audit.md`, no `aidlc-state.md`. The three root files are the entire spec.
 
-## The three skills
+## The skills
 
 ### `/lite-init`
 Five questions (one shot — answer what you can, skip the rest). Generates `BRIEF.md`, `PLAN.md`, `DECISIONS.md`, and a project-specific `CLAUDE.md`. Re-runnable: detects existing files and offers to refine.
@@ -90,6 +91,13 @@ Deep review for pending changes (defaults to `git diff`). Adapted from aidlc-sta
 - Reads `BRIEF.md` and `DECISIONS.md` to avoid flagging out-of-scope features as "missing"
 
 Run it when you want — typically before a commit. It is **not** a gate inside `/lite-dev`.
+
+### `/lite-team` (optional)
+Meta-skill that builds an agent team for the project. Reads `BRIEF.md` / `PLAN.md` / `DECISIONS.md` plus your manifest files (`package.json`, `pyproject.toml`, etc.) and proposes a roster: one required `team-lead` plus signal-driven specialists (developer, qa, reviewer, frontend, security-reviewer, data-engineer, infra-operator, researcher, …). You approve, edit, or cancel; on approval the skill writes `.claude/agents/*.md` and a project-root `TEAM.md`.
+
+The team lead picks the next unchecked PLAN item — same loop as `/lite-dev` — and either does it directly or delegates to specialists. No new state, no stages, no inter-agent approval gates. The user's commit is still the only gate.
+
+Skip this entirely if you're solo-driving via `/lite-dev`. Reach for it when work is parallelizable across roles or you want autonomous specialization.
 
 ## What good looks like
 
