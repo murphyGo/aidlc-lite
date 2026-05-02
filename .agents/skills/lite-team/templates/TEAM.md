@@ -31,5 +31,5 @@ Agent roster for this project. The team operates on `BRIEF.md`, `PLAN.md`, `DECI
 ## Updating the team
 
 - `/lite-team add <role>` — propose adding a role
-- `/lite-team reset` — archive existing agents to `.claude/agents.bak/` and rebuild
+- `/lite-team reset` — archive existing agents to `.agents/agents.bak/` and rebuild
 - `/lite-team status` — list current agents

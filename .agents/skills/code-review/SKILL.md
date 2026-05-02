@@ -1,3 +1,8 @@
+---
+name: code-review
+description: Reviews pending or selected code changes for correctness, safety, reliability, and maintainability issues.
+---
+
 # Code Review Skill
 
 Find real issues in code by reading and understanding it deeply — not by pattern-matching against a checklist. Adapted from aidlc-starter's code-review template, trimmed for personal-scale use.

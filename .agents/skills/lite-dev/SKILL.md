@@ -1,3 +1,8 @@
+---
+name: lite-dev
+description: Picks the next unchecked PLAN.md item, implements it, verifies, and checks it off.
+---
+
 # Lite Dev Skill
 
 The development driver. Picks the next unchecked `PLAN.md` task, implements it, checks it off.

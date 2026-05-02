@@ -1,3 +1,8 @@
+---
+name: lite-init
+description: Captures a project idea and generates or updates BRIEF.md, PLAN.md, DECISIONS.md, and AGENTS.md.
+---
+
 # Lite Init Skill
 
 Bootstrap a personal project from a rough idea in one shot. Five questions, three files generated.
@@ -8,7 +13,7 @@ Bootstrap a personal project from a rough idea in one shot. Five questions, thre
 
 ## Objective
 
-Generate `BRIEF.md`, `PLAN.md`, `DECISIONS.md`, and a project-specific `CLAUDE.md` from a single round of dialogue. Replace the template's `README.md` with a project README. Leave the three skills (`lite-init`, `lite-dev`, `code-review`) in place. **Do not** create `aidlc-docs/`, `audit.md`, `aidlc-state.md`, or any refinement-log.
+Generate `BRIEF.md`, `PLAN.md`, `DECISIONS.md`, and a project-specific `AGENTS.md` from a single round of dialogue. Replace the template's `README.md` with a project README. Leave the three skills (`lite-init`, `lite-dev`, `code-review`) in place. **Do not** create `aidlc-docs/`, `audit.md`, `aidlc-state.md`, or any refinement-log.
 
 ## Execution Steps
 
@@ -90,22 +95,22 @@ If features are entirely missing AND can't be inferred, ask **one** follow-up: "
 
 Behavior depends on the mode picked in Step 1:
 
-Templates live at `.claude/skills/lite-init/templates/` (alongside this SKILL.md). They are never copied to the project root — only their filled-in output is.
+Templates live at `.agents/skills/lite-init/templates/` (alongside this SKILL.md). They are never copied to the project root — only their filled-in output is.
 
 | Mode | Source | Output |
 |------|--------|--------|
-| First init (Greenfield or Brownfield) | Read `.claude/skills/lite-init/templates/BRIEF.md`, `…/PLAN.md`, `…/DECISIONS.md` | Write filled copies to project root |
+| First init (Greenfield or Brownfield) | Read `.agents/skills/lite-init/templates/BRIEF.md`, `.../PLAN.md`, `.../DECISIONS.md` | Write filled copies to project root |
 | Refinement (R) | Read existing root `BRIEF.md` / `PLAN.md` / `DECISIONS.md` | Edit them in place |
-| Refinement (X) | Step 1 already renamed existing root files to `*.bak`; treat as a first init | Read from `.claude/skills/lite-init/templates/`. The `.bak` files are kept on disk for the user to inspect/delete; do not read from them |
+| Refinement (X) | Step 1 already renamed existing root files to `*.bak`; treat as a first init | Read from `.agents/skills/lite-init/templates/`. The `.bak` files are kept on disk for the user to inspect/delete; do not read from them |
 
 **Generation rules:**
 - `BRIEF.md` — keep under 1 page (~50 lines). Prose with bullets. No FR-001 numbering. No NFR sections unless user mentioned perf/security explicitly.
 - `PLAN.md` — flat checklist of 5–15 tasks grouped by phase (Setup / Core / Polish are common, but adapt). Inline build/test commands at the top once tech is decided. No "units," no nested stage headings.
 - `DECISIONS.md` — append one entry for each non-obvious choice made during init (e.g., recommended tech stack, deferred features). Format: `## YYYY-MM-DD: <title>` then 2-4 lines of rationale. Use today's date as provided by the system.
 
-### Step 5: Generate project CLAUDE.md
+### Step 5: Generate project AGENTS.md
 
-**Replace** the template's `CLAUDE.md` with a project-specific one:
+**Replace** the template's `AGENTS.md` with a project-specific one:
 
 ```markdown
 # {Project Name}
@@ -166,8 +171,9 @@ In development. See `PLAN.md` for progress.
 
 ### Step 7: Skill housekeeping
 
-- Templates live at `.claude/skills/lite-init/templates/` and stay there — they're owned by the skill, not the project root. Nothing to delete.
-- Leave `.claude/skills/lite-init/`, `.claude/skills/lite-dev/`, and `.claude/skills/code-review/` in place — all three are part of the runtime toolkit.
+- Templates live at `.agents/skills/lite-init/templates/` and stay there — they're owned by the skill, not the project root. Nothing to delete.
+- Leave `.agents/skills/lite-init/`, `.agents/skills/lite-dev/`, and `.agents/skills/code-review/` in place — all three are part of the runtime toolkit.
+- Leave `CLAUDE.md` as a compatibility symlink to `AGENTS.md` when present; do not create a second project context file.
 - **Do not** touch `.git/` — the user manages that themselves (per the README quick start, they typically `rm -rf .git && git init` before cloning).
 
 ### Step 8: Final report
@@ -176,7 +182,7 @@ Print a short summary:
 
 ```
 ✓ BRIEF.md, PLAN.md, DECISIONS.md generated
-✓ CLAUDE.md and README.md replaced for this project
+✓ AGENTS.md and README.md replaced for this project
 
 Next: run /lite-dev to start on the first PLAN.md task.
 ```

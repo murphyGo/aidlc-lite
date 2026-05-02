@@ -1,3 +1,8 @@
+---
+name: lite-team
+description: Analyzes project signals and proposes a lightweight role-specialized agent team.
+---
+
 # Lite Team Skill
 
 Generate a project-aware agent team. Team lead is required; specialists are proposed based on project signals and approved by the user before any files are written.
@@ -6,9 +11,9 @@ Generate a project-aware agent team. Team lead is required; specialists are prop
 
 - `$ARGUMENTS` — (optional)
   - empty: full analysis + proposal flow
-  - `status`: list existing `.claude/agents/` and stop
+  - `status`: list existing `.agents/agents/` and stop
   - `add <role>`: skip analysis, propose adding a single role to an existing team
-  - `reset`: archive `.claude/agents/` to `.claude/agents.bak/` and start fresh
+  - `reset`: archive `.agents/agents/` to `.agents/agents.bak/` and start fresh
 
 ## Objective
 
@@ -19,12 +24,12 @@ One round of analysis → one proposal → user approval → generated agents. *
 ### Step 1: Pre-flight
 
 1. **AIDLC artifacts must exist.** Read `BRIEF.md`, `PLAN.md`, `DECISIONS.md`. If any is missing, stop and tell the user to run `/lite-init` first.
-2. **Existing team check.** If `.claude/agents/` exists with files:
+2. **Existing team check.** If `.agents/agents/` exists with files:
    - `status` mode: list them with one-line `description` from each file's frontmatter and stop.
-   - default mode: ask "Existing team found ({list}). Add to it (A), regenerate from scratch (R — moves current to `.claude/agents.bak/`), or cancel (C)?"
+   - default mode: ask "Existing team found ({list}). Add to it (A), regenerate from scratch (R — moves current to `.agents/agents.bak/`), or cancel (C)?"
    - `reset` mode: do the move silently and proceed.
    - `add <role>` mode: skip Step 2 + Step 3, jump to Step 4 with a single-role proposal.
-3. **Read project CLAUDE.md** for tech stack and conventions.
+3. **Read project AGENTS.md** for tech stack and conventions.
 
 ### Step 2: Project analysis (read-only)
 
@@ -105,9 +110,9 @@ If the user keeps re-editing past two rounds, ask "Lock this in?" and proceed on
 
 ### Step 5: Generate agent files
 
-For each approved role and count, write `.claude/agents/<name>.md`. Multi-instance roles get `<name>-1`, `<name>-2`, ... — each instance gets a slightly different focus hint in its description if useful (e.g., `developer-1: backend tasks`, `developer-2: frontend tasks`).
+For each approved role and count, write `.agents/agents/<name>.md`. Multi-instance roles get `<name>-1`, `<name>-2`, ... — each instance gets a slightly different focus hint in its description if useful (e.g., `developer-1: backend tasks`, `developer-2: frontend tasks`).
 
-Read the base template at `.claude/skills/lite-team/templates/agent-base.md` for the structural skeleton (frontmatter + AIDLC awareness block + out-of-bounds block). Fill in role-specific content from this matrix:
+Read the base template at `.agents/skills/lite-team/templates/agent-base.md` for the structural skeleton (frontmatter + AIDLC awareness block + out-of-bounds block). Fill in role-specific content from this matrix:
 
 | Role | Tools | Mission | Out-of-bounds extras |
 |------|-------|---------|-----------------------|
@@ -125,15 +130,15 @@ Read the base template at `.claude/skills/lite-team/templates/agent-base.md` for
 
 **Naming conventions:**
 - File name = agent name = role (e.g., `team-lead.md`, `developer-1.md`).
-- `description` field should be one sentence answering "when should I invoke this agent?" — that's what Claude Code uses to route.
+- `description` field should be one sentence answering "when should I invoke this agent?" — that's what Codex uses to route.
 
 ### Step 6: Generate TEAM.md at project root
 
-Read `.claude/skills/lite-team/templates/TEAM.md`, fill in the approved roster as a table, and write to project root `TEAM.md`. This is the team manifest the team-lead and user reference.
+Read `.agents/skills/lite-team/templates/TEAM.md`, fill in the approved roster as a table, and write to project root `TEAM.md`. This is the team manifest the team-lead and user reference.
 
-### Step 7: Update project CLAUDE.md
+### Step 7: Update project AGENTS.md
 
-Append (don't replace) a `## Team` section to project `CLAUDE.md`:
+Append (don't replace) a `## Team` section to project `AGENTS.md`:
 
 ```markdown
 ## Team
@@ -150,9 +155,9 @@ If a `## Team` section already exists, refresh the roster line and leave the res
 ### Step 8: Final report
 
 ```
-✓ Generated <N> agents in .claude/agents/
+✓ Generated <N> agents in .agents/agents/
 ✓ TEAM.md written at project root
-✓ CLAUDE.md updated with Team section
+✓ AGENTS.md updated with Team section
 
 Roster:
   - team-lead
@@ -161,7 +166,7 @@ Roster:
   - reviewer
   - frontend
 
-Invoke the team lead by asking Claude Code to "have team-lead pick up the next PLAN item",
+Invoke the team lead by asking Codex to "have team-lead pick up the next PLAN item",
 or invoke directly with the Agent tool: subagent_type=team-lead.
 ```
 

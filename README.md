@@ -62,8 +62,9 @@ my-project/
 ├── BRIEF.md         # 1 page: problem, MVP, tech, out-of-scope, success
 ├── PLAN.md          # flat checklist; checking items off IS your state
 ├── DECISIONS.md     # append-only ADR log for non-obvious choices
-├── CLAUDE.md        # project context for Claude Code
-└── .claude/skills/
+├── AGENTS.md        # project context for agents
+├── CLAUDE.md -> AGENTS.md
+└── .agents/skills/
     ├── lite-init/   # re-runnable: refine the brief / replan
     ├── lite-dev/    # the dev driver
     ├── code-review/ # deep review with conditional protocols
@@ -76,7 +77,7 @@ No `aidlc-docs/`, no `audit.md`, no `aidlc-state.md`. The three root files are t
 ## The skills
 
 ### `/lite-init`
-Five questions (one shot — answer what you can, skip the rest). Generates `BRIEF.md`, `PLAN.md`, `DECISIONS.md`, and a project-specific `CLAUDE.md`. Re-runnable: detects existing files and offers to refine.
+Five questions (one shot — answer what you can, skip the rest). Generates `BRIEF.md`, `PLAN.md`, `DECISIONS.md`, and a project-specific `AGENTS.md`. Re-runnable: detects existing files and offers to refine.
 
 ### `/lite-dev`
 Reads `PLAN.md`, picks the next unchecked task, reads `BRIEF.md` for context, implements it, checks the box, optionally appends a `DECISIONS.md` entry if a non-obvious choice was made. That's the loop.
@@ -93,7 +94,7 @@ Deep review for pending changes (defaults to `git diff`). Adapted from aidlc-sta
 Run it when you want — typically before a commit. It is **not** a gate inside `/lite-dev`.
 
 ### `/lite-team` (optional)
-Meta-skill that builds an agent team for the project. Reads `BRIEF.md` / `PLAN.md` / `DECISIONS.md` plus your manifest files (`package.json`, `pyproject.toml`, etc.) and proposes a roster: one required `team-lead` plus signal-driven specialists (developer, qa, reviewer, frontend, security-reviewer, data-engineer, infra-operator, researcher, …). You approve, edit, or cancel; on approval the skill writes `.claude/agents/*.md` and a project-root `TEAM.md`.
+Meta-skill that builds an agent team for the project. Reads `BRIEF.md` / `PLAN.md` / `DECISIONS.md` plus your manifest files (`package.json`, `pyproject.toml`, etc.) and proposes a roster: one required `team-lead` plus signal-driven specialists (developer, qa, reviewer, frontend, security-reviewer, data-engineer, infra-operator, researcher, ...). You approve, edit, or cancel; on approval the skill writes `.agents/agents/*.md` and a project-root `TEAM.md`.
 
 The team lead picks the next unchecked PLAN item — same loop as `/lite-dev` — and either does it directly or delegates to specialists. No new state, no stages, no inter-agent approval gates. The user's commit is still the only gate.
 
